@@ -25,6 +25,11 @@ contract VaultFactory {
     }
 
     mapping(address => mapping(uint256 => VaultInfo)) public userToVaults;
+    event vaultCreated(
+        address indexed user,
+        address vaultAddress,
+        uint256 chainId
+    );
 
     function createVault(uint256 chainId) public returns (address vault) {
         require(
@@ -39,6 +44,7 @@ contract VaultFactory {
             vaultAddress: address(vault),
             chainId: chainId
         });
+        emit vaultCreated(msg.sender, vault, chainId);
     }
 
     function getVaultAddresses(address user) external returns (address predicted) {
